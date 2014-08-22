@@ -36,4 +36,9 @@ describe Piece do
     expect(piece.save).to eq true
   end
 
+  it 'downcases a title input before it is created' do
+    piece = Piece.create(title: 'Toccata AND Fugue', composer: 'Bach', number_of_parts: 4)
+    expect(piece.title).to eq 'toccata and fugue'
+  end
+
 end

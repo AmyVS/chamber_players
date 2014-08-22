@@ -9,4 +9,8 @@ class Piece < ActiveRecord::Base
 
   validates :number_of_parts, presence: true, :numericality => { only_integer: true }
 
+  before_create do
+    self.title = title.downcase
+  end
+
 end
