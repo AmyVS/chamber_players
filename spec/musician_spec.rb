@@ -25,9 +25,9 @@ describe Musician do
     expect(musician.save).to eq true
   end
 
-  # it 'capitalizes a name input before it is created' do
-  #   musician = Musician.create(name: 'chris', instrument: 'bassoon')
-  #   expect(musician.name).to eq 'Chris'
-  # end
+  it 'capitalizes a name input before it is created' do
+    musician = Musician.create(name: 'chris', instrument: 'bassoon')
+    expect(musician.name).to eq 'Chris'
+  end
 
 end
