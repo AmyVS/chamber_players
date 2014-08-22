@@ -10,9 +10,19 @@ describe Musician do
     expect(musician.save).to eq false
   end
 
+  it 'ensures that the name only accepts letters' do
+    musician = Musician.create(name: 'Chris', instrument: 'bassoon')
+    expect(musician.save).to eq true
+  end
+
   it 'ensures that the instrument only accepts letters' do
     musician = Musician.create(name: 'Chris', instrument: 12)
     expect(musician.save).to eq false
+  end
+
+  it 'ensures that the instrument only accepts letters' do
+    musician = Musician.create(name: 'Chris', instrument: 'bassoon')
+    expect(musician.save).to eq true
   end
 
 end
