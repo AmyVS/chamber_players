@@ -8,6 +8,7 @@ class Musician < ActiveRecord::Base
 
   before_create do
     self.name = name.capitalize
+    self.instrument = instrument.downcase
   end
 
 end

@@ -30,4 +30,9 @@ describe Musician do
     expect(musician.name).to eq 'Chris'
   end
 
+  it 'downcases an instrument input before it is created' do
+    musician = Musician.create(name: 'chris', instrument: 'BASSOON')
+    expect(musician.instrument).to eq 'bassoon'
+  end
+
 end
