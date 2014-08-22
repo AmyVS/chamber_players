@@ -1,8 +1,7 @@
 class Piece < ActiveRecord::Base
   has_many :parts
 
-  validates :title, presence: true, format: { with: /[a-zA-Z]/,
-    message: "This input only allows letters." }
+  validates :title, presence: true
 
   validates :composer, presence: true, format: { with: /[a-zA-Z]/,
     message: "This input only allows letters." }
