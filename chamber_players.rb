@@ -1,5 +1,6 @@
 require 'bundler/setup'
 Bundler.require(:default)
+I18n.enforce_available_locales = false
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
@@ -49,7 +50,6 @@ def add_piece
   if new_piece.save
     puts "\n#{new_piece.title} by #{new_piece.composer} has been added to the music library."
     puts "\nWould you like to enter a new piece? y/n"
-    binding.pry
     choice = gets.chomp
     case choice
     when 'y'

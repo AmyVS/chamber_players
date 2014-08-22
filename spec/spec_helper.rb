@@ -1,5 +1,6 @@
 require 'bundler/setup'
 Bundler.require(:default, :test)
+I18n.enforce_available_locales = false
 
 Dir[File.dirname(__FILE__) + '/../lib/*.rb'].each { |file| require file }
 
