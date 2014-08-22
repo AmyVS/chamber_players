@@ -44,7 +44,7 @@ def add_piece
   puts "\nPlease enter the number of parts for this piece:"
   number_of_parts = gets.chomp
 
-  new_piece = Piece.create(title: title, composer: composer, number_of_parts: number_of_parts.to_i)
+  new_piece = Piece.new(title: title, composer: composer, number_of_parts: number_of_parts.to_i)
   if new_piece.save
     puts "\n#{new_piece.title} by #{new_piece.composer} has been added to the music library."
     puts "\nWould you like to enter a new piece? y/n"
@@ -59,8 +59,9 @@ def add_piece
     else
       puts "\nInvalid entry, returning to the main menu."
       main_menu
+    end
   else
-    puts "Sorry, that wasn't a valid entry. Please try again."
+    puts "\nSorry, that wasn't a valid entry. Please try again."
     new_piece.errors.full_messages.each { |message| puts message }
     add_piece
   end
