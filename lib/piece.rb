@@ -10,6 +10,7 @@ class Piece < ActiveRecord::Base
 
   before_create do
     self.title = title.downcase
+    self.composer = composer.capitalize
   end
 
 end

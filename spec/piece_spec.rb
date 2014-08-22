@@ -31,4 +31,9 @@ describe Piece do
     expect(piece.title).to eq 'toccata and fugue'
   end
 
+  it 'capitalizes composer input before it is created' do
+    piece = Piece.create(title: 'toccata and fugue', composer: 'BACH', number_of_parts: 4)
+    expect(piece.composer).to eq 'Bach'
+  end
+
 end
