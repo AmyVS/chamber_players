@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: chamber_players_development
+
+test:
+  adapter: postgresql
+  database: chamber_players_test
