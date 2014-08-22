@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822042155) do
+ActiveRecord::Schema.define(version: 20140822044509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chamber_pieces", force: true do |t|
+    t.string   "title"
+    t.string   "composer"
+    t.integer  "number_of_parts"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "musicians", force: true do |t|
     t.string   "name"
