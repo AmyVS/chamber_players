@@ -26,9 +26,14 @@ describe Piece do
     expect(piece.save).to eq true
   end
 
-  # it 'ensures that the number_of_parts only accepts integers' do
-  #   piece = Piece.create(title: 'Toccata and Fugue', composer: 'Bach', number_of_parts: 'four')
-  #   expect(piece.save).to eq false
-  # end
+  it 'ensures that the number_of_parts only accepts integers' do
+    piece = Piece.create(title: 'Toccata and Fugue', composer: 'Bach', number_of_parts: 'four')
+    expect(piece.save).to eq false
+  end
+
+  it 'ensures that the number_of_parts only accepts integers' do
+    piece = Piece.create(title: 'Toccata and Fugue', composer: 'Bach', number_of_parts: 4)
+    expect(piece.save).to eq true
+  end
 
 end
