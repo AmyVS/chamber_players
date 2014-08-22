@@ -68,4 +68,34 @@ def add_piece
   end
 end
 
+def add_musician
+  puts "\nPlease enter the name of the musician:"
+  name = gets.chomp
+
+  puts "\nPlease enter this musician's main instrument:"
+  instrument = gets.chomp
+
+  new_musician = Musician.create(name: name, instrument: instrument)
+
+  if new_musician.save
+    puts "\n#{new_musician.name} (#{new_musician.instrument} player) has been added to the personnel list."
+    puts "\nWould you like to enter a new musician? y/n"
+    choice = gets.chomp
+    case choice
+    when 'y'
+      add_musician
+    when 'n'
+      puts "\nReturning to the main menu..."
+      main_menu
+    else
+      puts "\nInvalid entry, returning to the main menu."
+      main_menu
+    end
+  else
+    puts "\nSorry, that wasn't a valid entry. Please try again."
+    new_piece.errors.full_messages.each { |message| puts message }
+    add_musician
+  end
+end
+
 welcome
