@@ -3,4 +3,5 @@ require 'spec_helper'
 describe Musician do
   it { should have_many :roles }
   it { should validate_presence_of :name }
+  it { should validate_presence_of :instrument }
 end

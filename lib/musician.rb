@@ -1,4 +1,4 @@
 class Musician < ActiveRecord::Base
   has_many :roles
-  validates :name, presence: true
+  validates :name, :instrument, presence: true
 end
