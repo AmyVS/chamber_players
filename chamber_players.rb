@@ -3,7 +3,7 @@ Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
-ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))['test'])
+ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))['development'])
 
 def welcome
   system('clear')
@@ -44,11 +44,12 @@ def add_piece
   puts "\nPlease enter the number of parts for this piece:"
   number_of_parts = gets.chomp
 
-  new_piece = Piece.new(title: title, composer: composer, number_of_parts: number_of_parts.to_i)
+  new_piece = Piece.create(title: title, composer: composer, number_of_parts: number_of_parts)
+
   if new_piece.save
     puts "\n#{new_piece.title} by #{new_piece.composer} has been added to the music library."
     puts "\nWould you like to enter a new piece? y/n"
-
+    binding.pry
     choice = gets.chomp
     case choice
     when 'y'

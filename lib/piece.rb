@@ -13,7 +13,7 @@ class Piece < ActiveRecord::Base
     self.composer = composer.capitalize
   end
 
-  scope :find_by_composer, -> { where(composer: composer)}
+  # scope :find_by_composer, -> { where(composer: composer)}
 
   # def self.find_by_composer(composer)
   #   where(composer: composer)
