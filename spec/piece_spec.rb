@@ -11,4 +11,9 @@ describe Piece do
     expect(piece.save).to eq false
   end
 
+  it 'ensures that the composer only accepts letters' do
+    piece = Piece.create(title: 'Toccata and Fugue', composer: 12, number_of_parts: 4)
+    expect(piece.save).to eq false
+  end
+
 end
