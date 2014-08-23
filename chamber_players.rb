@@ -16,14 +16,17 @@ end
 
 def main_menu
   puts "\nPlease select from the following choices:"
-  puts "[p] to add a new piece"
+  puts "[c] to add a new chamber piece"
+  puts "[p] to list and add parts of a piece"
   puts "[m] to add a new musician"
   puts "[x] to exit"
 
   choice = gets.chomp
   case choice
-  when 'p'
+  when 'c'
     add_piece
+  when 'p'
+    parts
   when 'm'
     add_musician
   when 'x'
@@ -66,6 +69,32 @@ def add_piece
     new_piece.errors.full_messages.each { |message| puts message }
     add_piece
   end
+end
+
+def parts
+  puts "\nPlease enter a name of a composer, to help locate a piece."
+  composer = gets.chomp
+  results = Piece.where(:composer = composer.capitalize)
+
+  puts "Here are all of our pieces composed by #{composer}:"
+  results.each_with_index do |piece|
+    puts "#{index+1}. #{piece.title} -- #{piece.number_of_parts} parts."
+  end
+
+  puts "Which one would you like to access? Please enter the appropriate number."
+  choice = gets.chomp
+
+  if choice.to_i == 0
+    puts "Invalid entry, please try again."
+    parts
+  else
+    @current_piece = Piece.all.fetch do |piece|
+      puts "#{choice} isn't a valid option, please try again."
+    end
+  end
+
+  #list parts for piece
+  #menu 1. add parts, 2. assign musicians
 end
 
 def add_musician
