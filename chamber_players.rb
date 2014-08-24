@@ -117,7 +117,7 @@ def parts
       puts "\nInvalid entry, please try again."
       parts
     else
-      @current_piece = Piece.all.fetch((choice.to_i)-1) do |piece|
+      @current_piece = @current_composer.pieces.fetch((choice.to_i)-1) do |piece|
         puts "\n#{choice} isn't a valid option, please try again."
       end
     end
