@@ -206,16 +206,6 @@ def add_parts
   end
 end
 
-# def part_checker
-#   binding.pry
-#   if @current_piece.number_of_parts.to_i == @current_piece.parts.length
-#     puts "\nLooks like the instrumentation for this piece is full. Please select another piece."
-#     parts
-#   else
-#     add_parts
-#   end
-# end
-
 def add_musician
   puts "\nPlease enter the name of the musician:"
   name = gets.chomp
