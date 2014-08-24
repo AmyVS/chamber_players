@@ -119,19 +119,36 @@ def parts
   end
 end
 
-# def list_parts
-  # if @current_piece.parts.length == 0
-  #   puts "\nLooks like there are no parts listed for this piece yet. Let's add some!"
-  #   add_parts
-  # else @current_piece.parts.length > 0
-  #   list_parts
-  # end
-#   puts "\nHere are the parts listed for #{@current_piece.name}:"
-#   @current_piece.parts.each_with_index do |part|
-#     puts "#{index+1}"
-#   end
-#   #menu 1. add parts, 2. assign musicians
-# end
+def list_parts
+  if @current_piece.parts.length == 0
+    puts "\nLooks like there are no parts listed for this piece yet. Let's add some!"
+    add_parts
+  else @current_piece.parts.length > 0
+    puts "\nHere are the parts listed for #{@current_piece.name}:"
+    @current_piece.parts.each_with_index do |part|
+      puts "#{index+1}. #{part.instrument}"
+    end
+
+    puts "Press the number of the part to assign it to a specific musician, or press"
+    puts "[a] to add a part to this piece, or"
+    puts "[x] to return to the main menu"
+
+    choice = gets.chomp
+    case choice
+    when 'a'
+      add_parts
+    when 'x'
+      main_menu
+    else
+      @current_part = Part.all.fetch((choice.to_i)-1) do |part|
+        puts "Invalid entry, please try again."
+        list_parts
+      end
+    end
+  end
+end
+
+#add_parts here
 
 def add_musician
   puts "\nPlease enter the name of the musician:"
