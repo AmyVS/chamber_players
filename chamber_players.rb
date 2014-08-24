@@ -166,32 +166,37 @@ def parts_are_you_sure
 end
 
 def add_parts
-  puts "\nWhat instrumentation would you like to add?"
-  instrument = gets.chomp
-
-  new_part = Part.create(instrument: instrument, piece_id: @current_piece.id)
-
-  if new_part.save
-    puts "\nA #{new_part.instrument} part has been added the piece #{@current_piece.title}."
-    puts "\nWould you like to add another part? y/n"
-
-    choice = gets.chomp
-    case choice
-    when 'y'
-      add_parts
-    when 'n'
-      puts "\nReturning to the last menu..."
-      list_parts
-    else
-      puts "\nInvalid entry, please try again."
-      add_parts
-    end
+  if @current_piece.number_of_parts.to_i == @current_piece.parts.length
+    puts "\nLooks like the instrumentation for this piece is full. Please select another piece."
+    parts
   else
-    puts "\nSorry, that wasn't a valid entry. Please try again."
-    if !new_part.save
-      new_part.errors.full_messages.each { |message| puts message }
+    puts "\nWhat instrumentation would you like to add?"
+    instrument = gets.chomp
+
+    new_part = Part.create(instrument: instrument, piece_id: @current_piece.id)
+
+    if new_part.save
+      puts "\nA #{new_part.instrument} part has been added the piece #{@current_piece.title}."
+      puts "\nWould you like to add another part? y/n"
+
+      choice = gets.chomp
+      case choice
+      when 'y'
+        add_parts
+      when 'n'
+        puts "\nReturning to the last menu..."
+        list_parts
+      else
+        puts "\nInvalid entry, please try again."
+        add_parts
+      end
+    else
+      puts "\nSorry, that wasn't a valid entry. Please try again."
+      if !new_part.save
+        new_part.errors.full_messages.each { |message| puts message }
+      end
+      add_parts
     end
-    add_parts
   end
 end
 
