@@ -9,6 +9,7 @@ ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))
 RSpec.configure do |config|
   config.after(:each) do
     Piece.all.each { |piece| piece.destroy }
+    Composer.all.each { |composer| composer.destroy }
     Musician.all.each { |musician| musician.destroy }
     Part.all.each { |part| part.destroy }
     Role.all.each { |role| role.destroy }
