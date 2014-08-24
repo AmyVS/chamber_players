@@ -24,7 +24,7 @@ end
 def main_menu
   puts "\nPlease select from the following choices:"
   puts "[c] to add a new chamber piece"
-  puts "[p] to list and add parts of a piece"
+  puts "[p] to list and add parts of a piece, and to assign musicians to parts"
   puts "[m] to add a new musician"
   puts "[x] to exit"
 
@@ -84,7 +84,7 @@ end
 
 def parts
   if Composer.all.length == 0
-    puts "Looks like your music library is empty. Please enter some chamber pieces to get started."
+    puts "\nLooks like your music library is empty. Please enter some chamber pieces to get started."
     main_menu
   else
     puts "\nHere are all the composers we have on file:"
@@ -157,7 +157,14 @@ def list_parts
       puts "\nYou've selected #{@current_part.instrument}, for the piece #{@current_piece.title}."
       puts "\nHere's our list of instruments:"
 
-      #list instruments on file here
+      if Instrument.all.length == 0
+        puts "\nLooks like your personnel list is empty. Please enter some musicians to get ."
+        main_menu
+      else
+        puts "\nHere's the list of instruments we have on file:"
+        Instrument.all.each_with_index do |instrument, index|
+          puts "#{index+1}. #{instrument.name}"
+        end
 
       puts "\nPlease select a number from the following to see who plays the #{@current_part.instrument}, or"
       puts "press any other key to return to the main_menu."
@@ -222,10 +229,11 @@ def add_musician
   puts "\nPlease enter this musician's main instrument:"
   instrument = gets.chomp
 
-  new_musician = Musician.create(name: name, instrument: instrument)
+  new_instrument = Instrument.find_or_create_by(name: instrument)
+  new_musician = Musician.create(name: name, instrument_id: new_instrument.id)
 
-  if new_musician.save
-    puts "\n#{new_musician.name} (#{new_musician.instrument} player) has been added to the personnel list."
+  if new_musician.save && new_instrument.save
+    puts "\n#{new_musician.name} (#{new_instrument.name} player) has been added to the personnel list."
     puts "\nWould you like to enter a new musician? y/n"
     choice = gets.chomp
     case choice
@@ -240,7 +248,8 @@ def add_musician
     end
   else
     puts "\nSorry, that wasn't a valid entry. Please try again."
-    new_piece.errors.full_messages.each { |message| puts message }
+    new_musician.errors.full_messages.each { |message| puts message }
+    new_instrument.errors.full_messages.each { |message| puts message }
     add_musician
   end
 end
