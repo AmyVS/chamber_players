@@ -10,7 +10,7 @@ ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))
 @current_piece = nil
 @current_part = nil
 
-@count = nil
+@count = 0
 
 
 def welcome
@@ -155,20 +155,29 @@ def list_parts
         list_parts
       end
       puts "\nYou've selected #{@current_part.instrument}, for the piece #{@current_piece.title}."
-      puts "\nHere's our list of instruments:"
+      assign_musician
+    end
+  end
+end
 
-      if Instrument.all.length == 0
-        puts "\nLooks like your personnel list is empty. Please enter some musicians to get ."
-        main_menu
-      else
-        puts "\nHere's the list of instruments we have on file:"
-        Instrument.all.each_with_index do |instrument, index|
-          puts "#{index+1}. #{instrument.name}"
-        end
+def assign_musician
+  if Musician.all.length == 0
+    puts "\nLooks like your personnel list is empty. Please enter some musicians to get ."
+    main_menu
+  else
+    puts "\nHere's our list of #{@current_part.instrument} players:"
+    # work in progress
+    puts "\nPlease select a number from the following to assign a musician to play #{@current_part.instrument} for #{@current_piece.title}, or"
+    puts "press any other key to return to the main_menu."
 
-      puts "\nPlease select a number from the following to see who plays the #{@current_part.instrument}, or"
-      puts "press any other key to return to the main_menu."
-      #assign part to musician here
+    if choice.to_i == 0
+      puts "\nReturning to main menu..."
+      main_menu
+    else
+      @current_musician = Composer.all.fetch((choice.to_i)-1) do |composer|
+        puts "\nInvalid entry, please try again"
+        parts
+      end
     end
   end
 end
