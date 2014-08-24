@@ -1,5 +1,6 @@
 class Piece < ActiveRecord::Base
   has_many :parts
+  belongs_to :composer
 
   validates :title, presence: true
 
