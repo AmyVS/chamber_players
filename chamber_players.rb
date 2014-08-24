@@ -124,19 +124,19 @@ def list_parts
     puts "\nLooks like there are no parts listed for this piece yet. Let's add some!"
     add_parts
   else @current_piece.parts.length > 0
-    puts "\nHere are the parts listed for #{@current_piece.name}:"
-    @current_piece.parts.each_with_index do |part|
+    puts "\nHere are the parts listed for #{@current_piece.title}:"
+    @current_piece.parts.each_with_index do |part, index|
       puts "#{index+1}. #{part.instrument}"
     end
 
-    puts "Press the number of the part to assign it to a specific musician, or press"
+    puts "\nPress the number of the part to assign it to a specific musician, or press"
     puts "[a] to add a part to this piece, or"
     puts "[x] to return to the main menu"
 
     choice = gets.chomp
     case choice
     when 'a'
-      add_parts
+      parts_are_you_sure
     when 'x'
       main_menu
     else
@@ -144,11 +144,56 @@ def list_parts
         puts "Invalid entry, please try again."
         list_parts
       end
+      #assign part to musician here
     end
   end
 end
 
-#add_parts here
+def parts_are_you_sure
+   puts "\nWould you like to add a new part to #{@current_piece.title} by #{@current_composer.name}? y/n"
+  choice = gets.chomp
+
+  case choice
+  when 'n'
+    puts "\nNo worries. Returning to the main menu..."
+    main_menu
+  when 'y'
+    add_parts
+  else
+    puts "\nInvalid entry, please try again."
+    add_parts
+  end
+end
+
+def add_parts
+  puts "\nWhat instrumentation would you like to add?"
+  instrument = gets.chomp
+
+  new_part = Part.create(instrument: instrument, piece_id: @current_piece.id)
+
+  if new_part.save
+    puts "\nA #{new_part.instrument} part has been added the piece #{@current_piece.title}."
+    puts "\nWould you like to add another part? y/n"
+
+    choice = gets.chomp
+    case choice
+    when 'y'
+      add_parts
+    when 'n'
+      puts "\nReturning to the last menu..."
+      list_parts
+    else
+      puts "\nInvalid entry, please try again."
+      add_parts
+    end
+  else
+    puts "\nSorry, that wasn't a valid entry. Please try again."
+    if !new_part.save
+      new_part.errors.full_messages.each { |message| puts message }
+    end
+    add_parts
+  end
+end
 
 def add_musician
   puts "\nPlease enter the name of the musician:"
