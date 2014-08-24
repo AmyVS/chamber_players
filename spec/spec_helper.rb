@@ -11,6 +11,7 @@ RSpec.configure do |config|
     Piece.all.each { |piece| piece.destroy }
     Composer.all.each { |composer| composer.destroy }
     Musician.all.each { |musician| musician.destroy }
+    Instrument.all.each { |instrument| instrument.destroy }
     Part.all.each { |part| part.destroy }
     Role.all.each { |role| role.destroy }
   end

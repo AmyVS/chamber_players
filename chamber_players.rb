@@ -8,7 +8,10 @@ ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))
 
 @current_composer = nil
 @current_piece = nil
+@current_part = nil
+
 @count = nil
+
 
 def welcome
   system('clear')
@@ -151,6 +154,13 @@ def list_parts
         puts "\nInvalid entry, please try again."
         list_parts
       end
+      puts "\nYou've selected #{@current_part.instrument}, for the piece #{@current_piece.title}."
+      puts "\nHere's our list of instruments:"
+
+      #list instruments on file here
+
+      puts "\nPlease select a number from the following to see who plays the #{@current_part.instrument}, or"
+      puts "press any other key to return to the main_menu."
       #assign part to musician here
     end
   end
@@ -174,7 +184,6 @@ def parts_are_you_sure
 end
 
 def add_parts
-  binding.pry
   if @current_piece.number_of_parts.to_i == @count
     puts "\nLooks like the instrumentation for this piece is full. Please select another piece."
     parts
