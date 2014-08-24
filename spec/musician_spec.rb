@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Musician do
   it { should have_many :roles }
+  it { should belong_to :instrument }
   it { should validate_presence_of :name }
 
   it 'ensures that the name only accepts letters' do
