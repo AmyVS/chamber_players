@@ -88,11 +88,17 @@ def parts
       puts "#{index+1}. #{composer.name}"
     end
 
-    puts "\nPlease select the number of a composer to list out their pieces."
+    puts "\nPlease select the number of a composer to list out their pieces,"
+    puts "or press any other key to return to the main menu"
     choice = gets.chomp
-    @current_composer = Composer.all.fetch((choice.to_i)-1) do |composer|
-      puts "Invalid entry, please try again"
-      parts
+    if choice.to_i == 0
+      puts "\nReturning to main menu..."
+      main_menu
+    else
+      @current_composer = Composer.all.fetch((choice.to_i)-1) do |composer|
+        puts "\nInvalid entry, please try again"
+        parts
+      end
     end
 
     puts "\nHere are all of our pieces composed by #{@current_composer.name}:"
@@ -141,7 +147,7 @@ def list_parts
       main_menu
     else
       @current_part = Part.all.fetch((choice.to_i)-1) do |part|
-        puts "Invalid entry, please try again."
+        puts "\nInvalid entry, please try again."
         list_parts
       end
       #assign part to musician here
@@ -182,7 +188,12 @@ def add_parts
       choice = gets.chomp
       case choice
       when 'y'
-        add_parts
+        if @current_piece.number_of_parts.to_i == @current_piece.parts.length
+          puts "\nLooks like the instrumentation for this piece is full. Please select another piece."
+          parts
+        else
+          add_parts
+        end
       when 'n'
         puts "\nReturning to the last menu..."
         list_parts
