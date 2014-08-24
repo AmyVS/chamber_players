@@ -8,6 +8,7 @@ ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))
 
 @current_composer = nil
 @current_piece = nil
+@count = nil
 
 def welcome
   system('clear')
@@ -164,15 +165,17 @@ def parts_are_you_sure
     puts "\nNo worries. Returning to the main menu..."
     main_menu
   when 'y'
+    @count = @current_piece.parts.length
     add_parts
   else
     puts "\nInvalid entry, please try again."
-    add_parts
+    list_parts
   end
 end
 
 def add_parts
-  if @current_piece.number_of_parts.to_i == @current_piece.parts.length
+  binding.pry
+  if @current_piece.number_of_parts.to_i == @count
     puts "\nLooks like the instrumentation for this piece is full. Please select another piece."
     parts
   else
@@ -180,7 +183,7 @@ def add_parts
     instrument = gets.chomp
 
     new_part = Part.create(instrument: instrument, piece_id: @current_piece.id)
-
+    @count+=1
     if new_part.save
       puts "\nA #{new_part.instrument} part has been added the piece #{@current_piece.title}."
       puts "\nWould you like to add another part? y/n"
@@ -188,12 +191,7 @@ def add_parts
       choice = gets.chomp
       case choice
       when 'y'
-        if @current_piece.number_of_parts.to_i == @current_piece.parts.length
-          puts "\nLooks like the instrumentation for this piece is full. Please select another piece."
-          parts
-        else
-          add_parts
-        end
+        add_parts
       when 'n'
         puts "\nReturning to the last menu..."
         list_parts
@@ -207,6 +205,16 @@ def add_parts
     end
   end
 end
+
+# def part_checker
+#   binding.pry
+#   if @current_piece.number_of_parts.to_i == @current_piece.parts.length
+#     puts "\nLooks like the instrumentation for this piece is full. Please select another piece."
+#     parts
+#   else
+#     add_parts
+#   end
+# end
 
 def add_musician
   puts "\nPlease enter the name of the musician:"
