@@ -203,9 +203,6 @@ def add_parts
       end
     else
       puts "\nSorry, that wasn't a valid entry. Please try again."
-      if !new_part.save
-        new_part.errors.full_messages.each { |message| puts message }
-      end
       add_parts
     end
   end

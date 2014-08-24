@@ -5,16 +5,6 @@ describe Part do
   it { should have_many :roles }
   it { should validate_presence_of :instrument }
 
-  it 'ensures that the instrument only accepts letters' do
-    part = Part.create(instrument: 12, piece_id: 1)
-    expect(part.save).to eq false
-  end
-
-  it 'ensures that the instrument only accepts letters' do
-    part = Part.create(instrument: 'bassoon', piece_id: 1)
-    expect(part.save).to eq true
-  end
-
   it 'downcases an instrument input before it is created' do
     part = Part.create(instrument: 'BASSOON', piece_id: 1)
     expect(part.instrument).to eq 'bassoon'
