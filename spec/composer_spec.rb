@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Composer do
   it { should validate_presence_of :name }
+  it { should have_many :pieces }
 
   it 'ensures that the composer only accepts letters' do
     composer = Composer.create(name: 42)
