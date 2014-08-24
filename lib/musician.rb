@@ -9,4 +9,6 @@ class Musician < ActiveRecord::Base
     self.name = name.capitalize
   end
 
+  scope :find_by_instrument, -> (instrument) { where(instrument_id: instrument.id) }
+
 end
