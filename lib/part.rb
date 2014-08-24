@@ -5,7 +5,7 @@ class Part < ActiveRecord::Base
   validates :instrument, presence: true
 
   validates :instrument, format: { with: /[a-zA-Z]/,
-    message: "This input only allows letters." }
+    message: "only allows letters." }
 
   before_create do
     self.instrument = instrument.downcase

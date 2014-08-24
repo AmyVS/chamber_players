@@ -4,7 +4,7 @@ class Musician < ActiveRecord::Base
   validates :name, :instrument, presence: true
 
   validates :name, :instrument, format: { with: /[a-zA-Z]/,
-    message: "This input only allows letters." }
+    message: "only allows letters." }
 
   before_create do
     self.name = name.capitalize
