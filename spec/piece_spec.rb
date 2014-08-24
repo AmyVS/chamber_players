@@ -21,11 +21,12 @@ describe Piece do
     expect(piece.title).to eq 'toccata and fugue'
   end
 
-  # it 'should return all pieces by a specific composer' do
-  #   piece1 = Piece.create(title: 'maple leaf rag', composer: 'Joplin', number_of_parts: 4)
-  #   piece2 = Piece.create(title: 'the entertainer', composer: 'Joplin', number_of_parts: 4)
-  #   piece3 = Piece.create(title: 'toccata and fugue', composer: 'Bach', number_of_parts: 5)
-  #   expect(Piece.find_by_composer).to eq [piece1, piece2]
-  # end
+  it 'should return all pieces by a specific composer' do
+    composer = Composer.create(name: 'Joplin')
+    piece1 = Piece.create(title: 'maple leaf rag', composer_id: composer.id, number_of_parts: 4)
+    piece2 = Piece.create(title: 'the entertainer', composer_id: composer.id, number_of_parts: 4)
+    piece3 = Piece.create(title: 'toccata and fugue', composer_id: 2, number_of_parts: 5)
+    expect(Piece.find_by_composer(composer)).to eq [piece1, piece2]
+  end
 
 end

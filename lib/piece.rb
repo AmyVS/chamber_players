@@ -10,10 +10,6 @@ class Piece < ActiveRecord::Base
     self.title = title.downcase
   end
 
-  # scope :find_by_composer, -> { where(composer: composer)}
-
-  # def self.find_by_composer(composer)
-  #   where(composer: composer)
-  # end
+  scope :find_by_composer, -> (composer) { where(composer_id: composer.id) }
 
 end
