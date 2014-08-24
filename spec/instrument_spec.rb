@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Instrument do
+  it { should have_many :musicians }
   it { should validate_presence_of :name }
 
   it 'ensures that the name only accepts letters' do

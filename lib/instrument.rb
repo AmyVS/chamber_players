@@ -1,4 +1,6 @@
 class Instrument < ActiveRecord::Base
+  has_many :musicians
+
   validates :name, presence: true, format: { with: /[a-zA-Z]/,
     message: "only allows letters." }
 
