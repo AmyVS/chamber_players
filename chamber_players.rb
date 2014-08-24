@@ -74,28 +74,44 @@ end
 def parts
   puts "\nPlease enter a name of a composer, to help locate a piece."
   composer = gets.chomp
-  results = Piece.where(:composer = composer.capitalize)
+  # This part still needs work...
+  results = Piece.where(:composer == composer.capitalize)
 
-  puts "Here are all of our pieces composed by #{composer}:"
-  results.each_with_index do |piece|
+  puts "\nHere are all of our pieces composed by #{composer}:"
+  results.each_with_index do |piece, index|
     puts "#{index+1}. #{piece.title} -- #{piece.number_of_parts} parts."
   end
 
-  puts "Which one would you like to access? Please enter the appropriate number."
+  puts "\nWhich one would you like to access? Please enter the appropriate number, or [x] to return to the main menu."
   choice = gets.chomp
 
-  if choice.to_i == 0
-    puts "Invalid entry, please try again."
+  if choice == 'x'
+    puts "\nReturning to the main menu..."
+    main_menu
+  elsif choice.to_i == 0
+    puts "\nInvalid entry, please try again."
     parts
   else
-    @current_piece = Piece.all.fetch do |piece|
-      puts "#{choice} isn't a valid option, please try again."
+    @current_piece = Piece.all.fetch((choice.to_i)-1) do |piece|
+      puts "\n#{choice} isn't a valid option, please try again."
     end
   end
-
-  #list parts for piece
-  #menu 1. add parts, 2. assign musicians
+  list_parts
 end
+
+# def list_parts
+  # if @current_piece.parts.length == 0
+  #   puts "\nLooks like there are no parts listed for this piece yet. Let's add some!"
+  #   add_parts
+  # else @current_piece.parts.length > 0
+  #   list_parts
+  # end
+#   puts "\nHere are the parts listed for #{@current_piece.name}:"
+#   @current_piece.parts.each_with_index do |part|
+#     puts "#{index+1}"
+#   end
+#   #menu 1. add parts, 2. assign musicians
+# end
 
 def add_musician
   puts "\nPlease enter the name of the musician:"
