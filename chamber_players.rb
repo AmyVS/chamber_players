@@ -28,6 +28,7 @@ def main_menu
   puts "[c] to add a new chamber piece"
   puts "[p] to list and add parts of a piece, and to assign musicians to parts"
   puts "[m] to add a new musician"
+  puts "[d] to delete musicians and pieces from the database"
   puts "[x] to exit"
 
   choice = gets.chomp
@@ -38,6 +39,8 @@ def main_menu
     parts
   when 'm'
     add_musician
+  when 'd'
+    delete_menu
   when 'x'
     puts "\nUntil next time!"
     exit
@@ -200,7 +203,7 @@ def assign_musician
         puts "\nReturning to the main menu..."
         main_menu
       else
-        binding.pry
+        #why isn't this working?!?!
         @current_musician = @musicians.fetch((choice.to_i)-1) do |musician|
           puts "\n#{choice} isn't a valid option, please try again."
           assign_musician
@@ -293,6 +296,25 @@ def add_musician
     new_musician.errors.full_messages.each { |message| puts message }
     new_instrument.errors.full_messages.each { |message| puts message }
     add_musician
+  end
+end
+
+def delete
+  puts "\nPlease select from the following:"
+  puts "[p] to delete a piece"
+  puts "[m] to delete a musician"
+  puts "[x] to return to the main menu"
+
+  choice = gets.chomp
+
+  case choice
+  when 'p'
+    delete_piece
+  when 'm'
+    delete_musician
+  else
+    puts "\nInvalid option, please try again."
+    delete
   end
 end
 
