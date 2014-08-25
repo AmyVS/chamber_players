@@ -9,6 +9,8 @@ ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))
 @current_composer = nil
 @current_piece = nil
 @current_part = nil
+@current_instrument = nil
+@musicians = nil
 
 @count = 0
 
@@ -139,23 +141,22 @@ def list_parts
       puts "#{index+1}. #{part.instrument}"
     end
 
-    puts "\nPress the number of the part to assign it to a specific musician, or press"
-    puts "[a] to add a part to this piece, or"
+    puts "\nPlease select from the following:"
+    puts "[a] to assign a musician to play #{@current_piece.title}"
+    puts "[p] to add a part to this piece, or"
     puts "[x] to return to the main menu"
 
     choice = gets.chomp
     case choice
     when 'a'
+      assign_musician
+    when 'p'
       parts_are_you_sure
     when 'x'
       main_menu
     else
-      @current_part = Part.all.fetch((choice.to_i)-1) do |part|
-        puts "\nInvalid entry, please try again."
-        list_parts
-      end
-      puts "\nYou've selected #{@current_part.instrument}, for the piece #{@current_piece.title}."
-      assign_musician
+      puts "\nInvalid option, please try again."
+      list_parts
     end
   end
 end
@@ -165,18 +166,50 @@ def assign_musician
     puts "\nLooks like your personnel list is empty. Please enter some musicians to get ."
     main_menu
   else
-    puts "\nHere's our list of #{@current_part.instrument} players:"
-    # work in progress
-    puts "\nPlease select a number from the following to assign a musician to play #{@current_part.instrument} for #{@current_piece.title}, or"
-    puts "press any other key to return to the main_menu."
+    puts "\nHere's our list of instruments we have in our database:"
+    Instrument.all.each_with_index do |instrument, index|
+      puts "#{index+1}. #{instrument.name}"
+    end
+
+    puts "\nTo view our personnel list, please select an instrument number."
+    puts "Or, press any other key to return to the main menu"
+    choice = gets.chomp
 
     if choice.to_i == 0
-      puts "\nReturning to main menu..."
+      puts "\nReturning to the main menu..."
       main_menu
     else
-      @current_musician = Composer.all.fetch((choice.to_i)-1) do |composer|
+      @current_instrument = Instrument.all.fetch((choice.to_i)-1) do |instrument|
         puts "\nInvalid entry, please try again"
-        parts
+        assign_musician
+      end
+
+      puts "\nHere's a list of #{@current_instrument.name} players:"
+      @musicians = Musician.find_by_instrument(@current_instrument)
+      @musicians.each_with_index do |musician, index|
+        puts "#{index+1}. #{musician.name}"
+      end
+
+      puts "\nTo assign a musician to play #{@current_instrument.name} for #{@current_piece.title},"
+      puts "please select the appropriate number, or"
+      puts "press any key to return to the main menu."
+
+      choice = gets.chomp
+
+      if choice.to_i == 0
+        puts "\nReturning to the main menu..."
+        main_menu
+      else
+        binding.pry
+        @current_musician = @musicians.fetch((choice.to_i)-1) do |musician|
+          puts "\n#{choice} isn't a valid option, please try again."
+          assign_musician
+        end
+        new_role = Role.create(part_id: @current_part.id, musician_id: @current_musician.id)
+        puts "\n#{@current_musician.name} has been successfully assigned"
+        puts "to play #{@current_instrument.name} for #{@current_piece.title}"
+        puts "\nReturning to the last menu..."
+        list_parts
       end
     end
   end
