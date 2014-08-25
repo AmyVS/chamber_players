@@ -301,21 +301,50 @@ end
 
 def delete
   puts "\nPlease select from the following:"
-  puts "[p] to delete a piece"
+  puts "[p] to delete a composer (and all of their pieces)"
   puts "[m] to delete a musician"
+  puts "[i] to delete an instrument"
   puts "[x] to return to the main menu"
 
   choice = gets.chomp
 
   case choice
-  when 'p'
-    delete_piece
+  when 'c'
+    delete_composer
   when 'm'
     delete_musician
+  when 'i'
+    delete_instrument
+  when 'x'
+    puts "\nReturning to the main menu..."
+    exit
   else
     puts "\nInvalid option, please try again."
     delete
   end
+end
+
+def delete_composer
+  puts "\nHere are all the composers we have on file:"
+  Composer.all.each_with_index do |composer, index|
+    puts "#{index+1}. #{composer.name}"
+  end
+
+  puts "\nPlease select the number of a composer to delete them along with their pieces,"
+  puts "or press any other key to return to the main menu"
+  choice = gets.chomp
+  if choice.to_i == 0
+    puts "\nReturning to main menu..."
+    main_menu
+  else
+    @current_composer = Composer.all.fetch((choice.to_i)-1) do |composer|
+      puts "\nInvalid entry, please try again"
+      parts
+    end
+  end
+  @current_composer.destroy
+  @current_composer.pieces.destroy
+  puts "#{@current_composer.name} has been successfully removed from our database"
 end
 
 welcome
