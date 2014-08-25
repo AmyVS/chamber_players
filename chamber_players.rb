@@ -375,6 +375,31 @@ def delete_piece
   main_menu
 end
 
+def delete_musician
+  puts "\nHere are all the musicians we have on file:"
+  Musician.all.each_with_index do |musician, index|
+    puts "#{index+1}. #{musician.name}"
+  end
+
+  puts "\nPlease select the number of a musician to delete them from our database"
+  puts "and unassign them from any possible playing roles."
+  puts "Or, press any other key to return to the main menu"
+  choice = gets.chomp
+  if choice.to_i == 0
+    puts "\nReturning to main menu..."
+    main_menu
+  else
+    @current_musician = Musician.all.fetch((choice.to_i)-1) do |musician|
+      puts "\nInvalid entry, please try again"
+      parts
+    end
+  end
+  @current_musician.destroy
+  Role.where(musician_id: @current_musician.id).destroy_all
+  puts "\n#{@current_musician.name} has been successfully removed from our database"
+  main_menu
+end
+
 def delete_instrument
   puts "\nHere are all the instruments we have on file:"
   Instrument.all.each_with_index do |instrument, index|
