@@ -299,9 +299,9 @@ def add_musician
   end
 end
 
-def delete
+def delete_menu
   puts "\nPlease select from the following:"
-  puts "[p] to delete a composer (and all of their pieces)"
+  puts "[c] to delete a composer (and all of their pieces)"
   puts "[m] to delete a musician"
   puts "[i] to delete an instrument"
   puts "[x] to return to the main menu"
@@ -343,7 +343,7 @@ def delete_composer
     end
   end
   @current_composer.destroy
-  @current_composer.pieces.destroy
+  Piece.where(composer_id: @current_composer.id).destroy_all
   puts "#{@current_composer.name} has been successfully removed from our database"
 end
 
