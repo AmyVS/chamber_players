@@ -312,6 +312,8 @@ def delete_menu
   case choice
   when 'c'
     delete_composer
+  when 'p'
+    delete_piece
   when 'm'
     delete_musician
   when 'i'
@@ -345,7 +347,32 @@ def delete_composer
   end
   @current_composer.destroy
   Piece.where(composer_id: @current_composer.id).destroy_all
-  puts "#{@current_composer.name} has been successfully removed from our database"
+  puts "\n#{@current_composer.name} has been successfully removed from our database"
+  main_menu
+end
+
+def delete_piece
+  puts "\nHere are all the pieces we have on file:"
+  Piece.all.each_with_index do |piece, index|
+    puts "#{index+1}. #{piece.title}"
+  end
+
+  puts "\nPlease select the number of a piece to delete them along with their parts,"
+  puts "or press any other key to return to the main menu"
+  choice = gets.chomp
+  if choice.to_i == 0
+    puts "\nReturning to main menu..."
+    main_menu
+  else
+    @current_piece = Piece.all.fetch((choice.to_i)-1) do |piece|
+      puts "\nInvalid entry, please try again"
+      parts
+    end
+  end
+  @current_piece.destroy
+  Part.where(piece_id: @current_piece.id).destroy_all
+  puts "\n#{@current_piece.title} has been successfully removed from our database"
+  main_menu
 end
 
 def delete_instrument
@@ -368,7 +395,8 @@ def delete_instrument
   end
   @current_instrument.destroy
   Musician.where(instrument_id: @current_instrument.id).destroy_all
-  puts "#{@current_instrument.name} has been successfully removed from our database"
+  puts "\n#{@current_instrument.name} has been successfully removed from our database"
+  main_menu
 end
 
 welcome
