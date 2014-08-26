@@ -2,7 +2,7 @@
 
 This is a project I conjured using Ruby and Active Record. It provides these handy tools:
 
-* Keeps a chamber music library (i.e. small musical ensemble)
+* Keeps a chamber music (i.e. small musical ensemble) library
 * Adds musicians to the database
 * Searches for chamber music by composer
 * Searches for muscians by instrument
