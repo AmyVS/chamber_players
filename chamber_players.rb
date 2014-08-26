@@ -145,12 +145,15 @@ def list_parts
     end
 
     puts "\nPlease select from the following:"
+    puts "[c] to see current playing assignments for #{@current_piece.title}"
     puts "[a] to assign a musician to play #{@current_piece.title}"
     puts "[p] to add a part to this piece, or"
     puts "[x] to return to the main menu"
 
     choice = gets.chomp
     case choice
+    when 'c'
+      current_assignments
     when 'a'
       assign_musician
     when 'p'
@@ -203,12 +206,13 @@ def assign_musician
         puts "\nReturning to the main menu..."
         main_menu
       else
-        #why isn't this working?!?!
         @current_musician = @musicians.fetch((choice.to_i)-1) do |musician|
           puts "\n#{choice} isn't a valid option, please try again."
           assign_musician
         end
-        new_role = Role.create(part_id: @current_part.id, musician_id: @current_musician.id)
+        assigned_part = Part.find_by(instrument: @current_instrument.name, piece_id: @current_piece.id)
+        assigned_part.update(musician_id: @current_musician.id)
+        # binding.pry
         puts "\n#{@current_musician.name} has been successfully assigned"
         puts "to play #{@current_instrument.name} for #{@current_piece.title}"
         puts "\nReturning to the last menu..."

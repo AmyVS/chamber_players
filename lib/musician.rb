@@ -1,5 +1,5 @@
 class Musician < ActiveRecord::Base
-  has_many :roles
+  has_many :parts
   belongs_to :instrument
 
   validates :name, presence: true, format: { with: /[a-zA-Z]/,

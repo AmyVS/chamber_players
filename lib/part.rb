@@ -1,6 +1,6 @@
 class Part < ActiveRecord::Base
   belongs_to :piece
-  has_many :roles
+  belongs_to :musician
 
   validates :instrument, presence: true
 
