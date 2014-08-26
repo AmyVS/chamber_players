@@ -212,13 +212,36 @@ def assign_musician
         end
         assigned_part = Part.find_by(instrument: @current_instrument.name, piece_id: @current_piece.id)
         assigned_part.update(musician_id: @current_musician.id)
-        # binding.pry
-        puts "\n#{@current_musician.name} has been successfully assigned"
-        puts "to play #{@current_instrument.name} for #{@current_piece.title}"
+        puts "\n#{@current_musician.name} has been successfully assigned to play #{@current_instrument.name} for #{@current_piece.title}"
         puts "\nReturning to the last menu..."
         list_parts
       end
     end
+  end
+end
+
+def current_assignments
+  puts "\nHere's the list of current playing assignments for #{@current_piece.title}:"
+  @current_piece.parts.each do |part|
+    if part.musician_id == nil
+      puts "#{part.instrument}:"
+    else
+      puts "#{part.instrument}: #{part.musician.name}"
+    end
+  end
+  puts "\nPlease select from the following:"
+  puts "[a] to add a musician to a part, or"
+  puts "[x] return to the main menu"
+  choice = gets.chomp
+
+  case choice
+  when 'a'
+    assign_musician
+  when 'x'
+    main_menu
+  else
+    puts "Invalid option, please try again."
+    current_assignments
   end
 end
 
