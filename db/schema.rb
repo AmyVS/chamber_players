@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140824222006) do
+ActiveRecord::Schema.define(version: 20140826043806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20140824222006) do
     t.integer  "piece_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "musician_id"
   end
 
   create_table "pieces", force: true do |t|
@@ -48,13 +49,6 @@ ActiveRecord::Schema.define(version: 20140824222006) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "composer_id"
-  end
-
-  create_table "roles", force: true do |t|
-    t.integer  "part_id"
-    t.integer  "musician_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
 end
