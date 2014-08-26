@@ -240,7 +240,7 @@ def current_assignments
   when 'x'
     main_menu
   else
-    puts "Invalid option, please try again."
+    puts "\nInvalid option, please try again."
     current_assignments
   end
 end
@@ -258,7 +258,7 @@ def parts_are_you_sure
     add_parts
   else
     puts "\nInvalid entry, please try again."
-    list_parts
+    parts_are_you_sure
   end
 end
 
