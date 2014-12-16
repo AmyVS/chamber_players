@@ -11,7 +11,7 @@ This is a project I conjured using Ruby and Active Record. It provides these han
 
 Enjoy!
 
-![image](https://scontent-a-sea.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/549104_3927679905774_13103771_n.jpg?oh=bc8b82932616cd1b41ddefb5ec4d8035&oe=5470F354)
+![image](https://scontent-a-sea.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/549104_3927679905774_13103771_n.jpg?oh=7687978303d324d748d2bfa29d08020e&oe=550F2754)
 
 ----
 ##Installation
